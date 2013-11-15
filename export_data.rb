@@ -12,6 +12,7 @@ class ExportData
   end
 
   def products
+    # TODO, Should this lazy load from the API?
     product_keys = @redis.keys("#{@namespace}:*")
     out = Enumerator.new do |yielder|
       1.times do |i|
@@ -37,6 +38,7 @@ class ExportData
   end
 
   def csv_get_row (item)
+    # TODO, cleanup data template format
     row = Mustache.render(@row, item)
     row.split('|')
   end
@@ -46,11 +48,13 @@ class ExportData
     tsv_transform
   end
 
+  # TODO, break into nicer functions
   def tsv_transform
     require 'csv'
     require 'aws-sdk'
     s3 = AWS::S3.new
     obj = s3.buckets['test-feed-gen'].objects['out/file.tsv']
+    # TODO, swappable data destination
     obj.write(estimated_content_length: 10000000) do |buffer, bytes|
       if (!@finished)
         string = CSV.generate_line(csv_get_header, col_sep: "\t" )
