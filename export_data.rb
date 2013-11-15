@@ -13,7 +13,7 @@ class ExportData
   def products
     product_keys = @redis.keys("#{@namespace}:*")
     out = Enumerator.new do |yielder|
-      3600.times do
+      100.times do
         product_keys.each do |key|
           yielder << JSON.parse(@redis.get key)
         end
@@ -31,7 +31,7 @@ class ExportData
   def upload
     s3 = AWS::S3.new
     file = File.open("out/file.tsv", 'r')
-    obj = s3.buckets['test-feed-gen'].objects['file.tsv']
+    obj = s3.buckets['test-feed-gen'].objects['out/file.tsv']
     obj.write(:content_length => file.size) do |buffer, bytes|
       buffer.write(file.read(bytes))
       # you could do some interesting things here to track progress
