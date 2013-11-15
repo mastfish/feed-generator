@@ -8,12 +8,13 @@ class ExportData
   def initialize namespace
     @namespace = namespace
     @redis = Redis.new
+    @finished = false
   end
 
   def products
     product_keys = @redis.keys("#{@namespace}:*")
     out = Enumerator.new do |yielder|
-      4000.times do |i|
+      100.times do |i|
         p i
         product_keys.each do |key|
           yielder << JSON.parse(@redis.get key)
