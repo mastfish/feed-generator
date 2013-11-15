@@ -1,0 +1,2 @@
+id,title,description,price,condition,link,
+{{id}}|{{name}}|{{description}}|{{price}}|{{condition}}|{{custom_url}}

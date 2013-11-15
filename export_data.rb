@@ -2,7 +2,7 @@ require 'json'
 require 'redis'
 require "nokogiri"
 require 'active_support/core_ext/array/conversions'
-
+require 'mustache'
 
 class ExportData
   def initialize namespace
@@ -14,8 +14,8 @@ class ExportData
   def products
     product_keys = @redis.keys("#{@namespace}:*")
     out = Enumerator.new do |yielder|
-      100.times do |i|
-        p i
+      1.times do |i|
+        # p i
         product_keys.each do |key|
           yielder << JSON.parse(@redis.get key)
         end
@@ -25,7 +25,24 @@ class ExportData
     out
   end
 
+  def parse_tbl_file
+    template = File.read("./test.csv.tbl")
+    lines = template.split("\n")
+    @header = lines[0]
+    @row = lines[1]
+  end
+
+  def csv_get_header
+    @header.split(',')
+  end
+
+  def csv_get_row (item)
+    row = Mustache.render(@row, item)
+    row.split('|')
+  end
+
   def work
+    parse_tbl_file
     tsv_transform
   end
 
@@ -36,11 +53,12 @@ class ExportData
     obj = s3.buckets['test-feed-gen'].objects['out/file.tsv']
     obj.write(estimated_content_length: 10000000) do |buffer, bytes|
       if (!@finished)
-        string = CSV.generate_line(["id", "description"], col_sep: "\t" )
+        string = CSV.generate_line(csv_get_header, col_sep: "\t" )
         buffer.write string
-        p string
-        products.each do |thing|
-          string = CSV.generate_line([thing["id"], thing["description"]], col_sep: "\t")
+        # p string
+        products.each do |item|
+          p item.keys
+          string = CSV.generate_line(csv_get_row(item), col_sep: "\t")
           buffer.write string
           # p string
         end

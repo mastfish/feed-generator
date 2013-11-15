@@ -36,6 +36,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.0)
     mono_logger (1.1.0)
+    mustache (0.99.4)
     nokogiri (1.5.10)
     pry (0.9.12.3)
       coderay (~> 1.0)
@@ -60,6 +61,7 @@ DEPENDENCIES
   bigcommerce!
   em-synchrony
   hiredis (~> 0.4.5)
+  mustache
   pry
   redis (~> 3.0.1)
   resque (~> 2.0.0.pre.1)!

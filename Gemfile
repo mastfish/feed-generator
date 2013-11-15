@@ -10,4 +10,5 @@ gem "ruby-xslt", "~> 0.9.9"
 gem 'pry'
 gem "active_support"
 gem "aws-sdk"
+gem "mustache"
 
