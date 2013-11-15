@@ -7,6 +7,7 @@ gem "redis", "~> 3.0.1"
 gem "hiredis", "~> 0.4.5"
 gem "em-synchrony"
 gem "ruby-xslt", "~> 0.9.9"
-gem "nokogiri"
 gem 'pry'
 gem "active_support"
+gem "aws-sdk"
+

@@ -3,6 +3,7 @@ require 'redis'
 require "nokogiri"
 require 'active_support/core_ext/array/conversions'
 
+
 class ExportData
   def initialize namespace
     @namespace = namespace
@@ -10,21 +11,49 @@ class ExportData
   end
 
   def products
-    products = []
     product_keys = @redis.keys("#{@namespace}:*")
-    product_keys.each do |key|
-      products.push JSON.parse(@redis.get key)
+    out = Enumerator.new do |yielder|
+      3600.times do
+        product_keys.each do |key|
+          yielder << JSON.parse(@redis.get key)
+        end
+      end
     end
-    products
+    out
   end
 
   def work
-    doc   = Nokogiri::XML(products.to_xml)
-    # puts doc
-    xslt  = Nokogiri::XSLT(File.read('./test.xsl'))
-    # p
-    puts xslt.transform(doc)
+    tsv_transform
+    p 'upload start'
+    upload
+  end
 
+  def upload
+    s3 = AWS::S3.new
+    file = File.open("file.tsv", 'r')
+    obj = s3.buckets['test-feed-gen'].objects['file.tsv']
+    obj.write(:content_length => file.size) do |buffer, bytes|
+      buffer.write(file.read(bytes))
+      # you could do some interesting things here to track progress
+    end
+    file.close
+  end
+
+  def tsv_transform
+    require 'csv'
+
+    CSV.open("file.tsv", "a",col_sep: "\t") do |csv|
+      csv << ["id", "description"]
+      products.each do |thing|
+        csv << [thing["id"], thing["description"]]
+      end
+    end
+  end
+
+  def xsl_transform
+    doc   = Nokogiri::XML(products.to_xml)
+    xslt  = Nokogiri::XSLT(File.read('./googlefeed.xsl'))
+    puts xslt.transform(doc)
   end
 
 end

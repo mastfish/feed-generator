@@ -23,6 +23,10 @@ GEM
     active_support (3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
+    aws-sdk (1.26.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4, < 1.6.0)
+      uuidtools (~> 2.1)
     coderay (1.1.0)
     em-synchrony (1.0.3)
       eventmachine (>= 1.0.0.beta.1)
@@ -31,10 +35,8 @@ GEM
     json (1.8.1)
     method_source (0.8.2)
     mime-types (2.0)
-    mini_portile (0.5.2)
     mono_logger (1.1.0)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
+    nokogiri (1.5.10)
     pry (0.9.12.3)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -45,18 +47,19 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     ruby-xslt (0.9.9)
-    slop (3.4.6)
+    slop (3.4.7)
     thor (0.18.1)
+    uuidtools (2.1.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   active_support
+  aws-sdk
   bigcommerce!
   em-synchrony
   hiredis (~> 0.4.5)
-  nokogiri
   pry
   redis (~> 3.0.1)
   resque (~> 2.0.0.pre.1)!

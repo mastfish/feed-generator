@@ -14,6 +14,5 @@ class GrabData
         @redis.set("product:#{product["id"]}", product.to_json)
       end
     end
-    #
   end
 end
