@@ -30,7 +30,7 @@ class ExportData
 
   def upload
     s3 = AWS::S3.new
-    file = File.open("file.tsv", 'r')
+    file = File.open("out/file.tsv", 'r')
     obj = s3.buckets['test-feed-gen'].objects['file.tsv']
     obj.write(:content_length => file.size) do |buffer, bytes|
       buffer.write(file.read(bytes))
@@ -42,7 +42,7 @@ class ExportData
   def tsv_transform
     require 'csv'
 
-    CSV.open("file.tsv", "a",col_sep: "\t") do |csv|
+    CSV.open("out/file.tsv", "a",col_sep: "\t") do |csv|
       csv << ["id", "description"]
       products.each do |thing|
         csv << [thing["id"], thing["description"]]
