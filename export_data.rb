@@ -13,7 +13,7 @@ class ExportData
   def products
     product_keys = @redis.keys("#{@namespace}:*")
     out = Enumerator.new do |yielder|
-      100.times do
+      360.times do
         product_keys.each do |key|
           yielder << JSON.parse(@redis.get key)
         end
@@ -24,28 +24,17 @@ class ExportData
 
   def work
     tsv_transform
-    p 'upload start'
-    upload
-  end
-
-  def upload
-    s3 = AWS::S3.new
-    file = File.open("out/file.tsv", 'r')
-    obj = s3.buckets['test-feed-gen'].objects['out/file.tsv']
-    obj.write(:content_length => file.size) do |buffer, bytes|
-      buffer.write(file.read(bytes))
-      # you could do some interesting things here to track progress
-    end
-    file.close
   end
 
   def tsv_transform
     require 'csv'
-
-    CSV.open("out/file.tsv", "a",col_sep: "\t") do |csv|
-      csv << ["id", "description"]
+    require 'aws-sdk'
+    s3 = AWS::S3.new
+    obj = s3.buckets['test-feed-gen'].objects['out/file.tsv']
+    obj.write(estimated_content_length: 104857600) do |buffer, bytes|
+      buffer.write CSV.generate_line(["id", "description"], col_sep: "\t" )
       products.each do |thing|
-        csv << [thing["id"], thing["description"]]
+        buffer.write CSV.generate_line([thing["id"], thing["description"]], col_sep: "\t")
       end
     end
   end

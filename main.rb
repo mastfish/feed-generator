@@ -14,7 +14,8 @@ api = Bigcommerce::Api.new({
 
 AWS.config(
   :access_key_id => ENV["S3_KEY_ID"],
-  :secret_access_key => ENV["S3_ACCESS_KEY"]
+  :secret_access_key => ENV["S3_ACCESS_KEY"],
+  :region => 'ap-southeast-2',
 )
 
 import = GrabData.new(api)
