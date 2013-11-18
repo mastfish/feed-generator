@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/bigcommerce/bigcommerce-api-ruby.git
+  remote: git://github.com/mastfish/bigcommerce-api-ruby.git
   revision: 7caaa09b1778b3ed401e41141c34495f511f55ac
   specs:
     bigcommerce (0.9.0)
@@ -36,7 +36,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.0)
     mono_logger (1.1.0)
-    mustache (0.99.4)
+    mustache (0.99.5)
     nokogiri (1.5.10)
     pry (0.9.12.3)
       coderay (~> 1.0)

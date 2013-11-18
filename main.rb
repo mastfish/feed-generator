@@ -6,9 +6,9 @@ require './export_data'
 
 
 api = Bigcommerce::Api.new({
-    :store_url => "https://store-gt1zgky4.bcapp.dev",
+    :store_url => "https://store-aq2mv9u0.bcapp.dev",
     :username  => "admin",
-    :api_key   => "1320fd79b5b47c8173d642e33879002ffb1c7ff2"
+    :api_key   => "65ebd71ca13eb0c63d16fc5e0ce26119a003aea9"
 })
 
 
