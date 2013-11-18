@@ -1,2 +1,2 @@
-id,title,description,price,condition,link,image_link,brand,
-{{product.id}}|{{product.name}}|{{product.description}}|{{product.price}}|{{product.condition}}|{{product.custom_url}}|{{image.image_file}}|{{product.brand.name}}
+id,title,description,price,condition,link,image_link,brand,availability
+{{product.id}}|{{product.name}}|{{product.description}}|{{product.price}}|{{product.condition}}|{{product.custom_url}}|{{image.image_file}}|{{product.brand.name}}|{{availability}}

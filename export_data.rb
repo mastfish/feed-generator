@@ -36,8 +36,21 @@ class ExportData
     @header.split(',')
   end
 
+  # Should return one of:
+    # 'in stock'
+    # 'available for order'
+    # 'out of stock'
+    # 'preorder'
+  # TODO, detect pre-order stuff
+  def availability item
+    if (item["availability"] == "available")
+      return 'in stock'
+    end
+    'out of stock'
+  end
+
   def csv_get_row (item)
-    variables = {product: item, image: item["images"].first}
+    variables = {product: item, image: item["images"].first, availability: availability(item)}
     # binding.pry
     row = Mustache.render(@row, variables)
     row.split('|')
