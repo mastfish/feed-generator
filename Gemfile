@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
 
 gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
 gem "bigcommerce", github: "mastfish/bigcommerce-api-ruby"
