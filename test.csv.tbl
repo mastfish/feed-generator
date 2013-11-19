@@ -1,2 +1,2 @@
-id,title,description,price,condition,link,image_link,brand,availability
-{{product.id}}|{{product.name}}|{{product.description}}|{{product.price}}|{{product.condition}}|{{product.custom_url}}|{{image.image_file}}|{{product.brand.name}}|{{availability}}
+id,title,description,price,condition,link,image_link,brand,availability,gtin,mpn
+{{product.id}}|{{product.name}}|{{product.description}}|{{product.price}}|{{product.condition}}|{{product.custom_url}}|{{image.image_file}}|{{product.brand.name}}|{{availability}}|{{gps.global_trade_item_number}}|{{gps.manufacturer_part_number}}
