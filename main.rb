@@ -1,8 +1,8 @@
 require 'bigcommerce'
 require 'pry'
 require 'aws-sdk'
-require './grab_data'
-require './export_data'
+require './lib/grab_data'
+require './lib/export_data'
 
 
 api = Bigcommerce::Api.new({

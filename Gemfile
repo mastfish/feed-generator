@@ -11,4 +11,4 @@ gem 'pry'
 gem "active_support"
 gem "aws-sdk"
 gem "mustache"
-
+gem "sinatra"
