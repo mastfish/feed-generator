@@ -51,7 +51,7 @@ class ExportData
 
   def csv_get_row (item)
     variables = {product: item, image: item["images"].first, availability: availability(item)}
-    # binding.pry
+    binding.pry
     row = Mustache.render(@row, variables)
     row.split('|')
   end

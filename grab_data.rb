@@ -1,4 +1,6 @@
 require "redis"
+require 'net/http'
+require 'json'
 
 class GrabData
 
@@ -16,7 +18,14 @@ class GrabData
     @redis.pipelined do
       products.each do |product|
         product.load(:brand, :images)
-        @redis.set("product:#{product["id"]}", product.to_json)
+        uri = URI.parse @api.connection.configuration[:store_url]
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        res = http.get("/api/catalog/feeds/google?ids=#{product["id"]}")
+        gps = JSON.parse(res.body)
+        thing = JSON.parse(product.to_json)
+        thing["gps"] = gps.first
+        @redis.set("product:#{product["id"]}", thing.to_json)
       end
     end
   end
